@@ -104,7 +104,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         />
       ) : (
         <>
-          <TaskTitle>{task.title}</TaskTitle>
+          <TaskTitle title={task.title}>{task.title}</TaskTitle>
           <TaskActions>
             <TaskActionBtn
               title="Edit"

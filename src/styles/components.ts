@@ -180,7 +180,7 @@ export const DayCell = styled.div<{
   isToday: boolean;
   isDragOver: boolean;
 }>`
-  min-height: 120px;
+  min-height: 140px;
   background: ${({ isDragOver }) => isDragOver ? '#e4f0f6' : theme.cellBg};
   border-right: 1px solid ${theme.border};
   border-bottom: 1px solid ${theme.border};
@@ -226,9 +226,8 @@ export const CardCount = styled.span`
 export const HolidayBadge = styled.div`
   font-size: 11px;
   color: ${theme.holiday};
-  display: flex;
+  display: block;
   align-items: center;
-  gap: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -280,6 +279,21 @@ export const AddTaskButton = styled.button`
   &:hover { color: ${theme.text}; background: rgba(9,30,66,0.06); }
 `;
 
+export const ShowMoreBtn = styled.button`
+  background: none;
+  border: none;
+  color: ${theme.accent};
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 4px;
+  text-align: left;
+  border-radius: 3px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.1s;
+  &:hover { background: rgba(0,121,191,0.08); }
+`;
+
 // ─── Task Card ────────────────────────────────────────────────────────────────
 
 export const TaskCardWrapper = styled.div<{ isDragging: boolean; isFiltered: boolean }>`
@@ -294,6 +308,7 @@ export const TaskCardWrapper = styled.div<{ isDragging: boolean; isFiltered: boo
   position: relative;
   &:active { cursor: grabbing; }
   &:hover { box-shadow: ${theme.cardShadowHover}; }
+  min-width: 0;
 `;
 
 export const LabelStrip = styled.div`
@@ -315,8 +330,10 @@ export const TaskTitle = styled.div`
   font-size: 13px;
   color: ${theme.text};
   line-height: 1.4;
-  word-break: break-word;
   padding-right: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const TaskActions = styled.div`

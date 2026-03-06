@@ -11,6 +11,7 @@ import {
   AddTaskInput,
   AddTaskButton,
   TaskDropIndicator,
+  ShowMoreBtn,
 } from '../styles/components'
 
 interface CalendarCellProps {
@@ -45,11 +46,16 @@ export const CalendarCell: React.FC<CalendarCellProps> = ({
   onDrop,
   onDragEnd,
 }) => {
+  const MAX_VISIBLE = 2
+  const [expanded, setExpanded] = useState(false)
   const [addingTask, setAddingTask] = useState(false)
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
   const isDragOver = dragState.overDate === day.dateStr
   const isDraggingAny = dragState.taskId !== null
+
+  const visibleTasks = expanded ? day.tasks : day.tasks.slice(0, MAX_VISIBLE)
+  const hiddenCount = day.tasks.length - MAX_VISIBLE
 
   const handleCellDragOver = useCallback(
     (e: React.DragEvent) => {
@@ -127,7 +133,7 @@ export const CalendarCell: React.FC<CalendarCellProps> = ({
       ))}
 
       {/* Tasks with drop indicators */}
-      {day.tasks.map((task, idx) => {
+      {visibleTasks.map((task, idx) => {
         const showDrop =
           isDragOver &&
           dragState.overIndex === idx &&
@@ -157,6 +163,14 @@ export const CalendarCell: React.FC<CalendarCellProps> = ({
           </React.Fragment>
         )
       })}
+      {!expanded && hiddenCount > 0 && (
+        <ShowMoreBtn onClick={() => setExpanded(true)}>
+          + {hiddenCount} more
+        </ShowMoreBtn>
+      )}
+      {expanded && day.tasks.length > MAX_VISIBLE && (
+        <ShowMoreBtn onClick={() => setExpanded(false)}>Show less</ShowMoreBtn>
+      )}
 
       {/* Drop zone at end */}
       <TaskDropIndicator
