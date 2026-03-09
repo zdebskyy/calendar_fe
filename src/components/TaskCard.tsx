@@ -86,7 +86,6 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       onDragEnd={onDragEnd}
       onDoubleClick={handleDoubleClick}
     >
-      {/* Color label bars at top — Trello style */}
       <LabelStrip>
         {labels.map((color, i) => (
           <LabelPill key={i} color={color} />

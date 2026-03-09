@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { CalendarDay, DragState, Task } from '../types'
 import { TaskCard } from './TaskCard'
-import { theme } from '../styles/components'
 import {
   DayCell,
   DayHeader,
@@ -13,6 +12,8 @@ import {
   TaskDropIndicator,
   ShowMoreBtn,
 } from '../styles/components'
+import { randomLabels } from '../helpers/labelHelper'
+import { MAX_VISIBLE } from '../constants'
 
 interface CalendarCellProps {
   day: CalendarDay
@@ -27,13 +28,6 @@ interface CalendarCellProps {
   onDragEnd: () => void
 }
 
-function randomLabels(): string[] {
-  const colors = theme.labelColors
-  const count = Math.floor(Math.random() * 3) + 1
-  const shuffled = [...colors].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, count)
-}
-
 export const CalendarCell: React.FC<CalendarCellProps> = ({
   day,
   dragState,
@@ -46,7 +40,6 @@ export const CalendarCell: React.FC<CalendarCellProps> = ({
   onDrop,
   onDragEnd,
 }) => {
-  const MAX_VISIBLE = 2
   const [expanded, setExpanded] = useState(false)
   const [addingTask, setAddingTask] = useState(false)
   const [newTaskTitle, setNewTaskTitle] = useState('')
@@ -127,7 +120,7 @@ export const CalendarCell: React.FC<CalendarCellProps> = ({
 
       {/* Holidays — fixed, non-draggable */}
       {day.holidays.map((h) => (
-        <HolidayBadge key={h.date + h.name} title={h.name}>
+        <HolidayBadge key={h.date + h.name} title={h.localName}>
           🎉 {h.localName}
         </HolidayBadge>
       ))}

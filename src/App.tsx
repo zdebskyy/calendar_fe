@@ -1,6 +1,11 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Global, css } from '@emotion/react';
-import { Calendar } from './components/Calendar';
+import { AuthProvider } from './context/AuthContext';
+import { PrivateRoute } from './components/PrivateRoute';
+import { LoginPage } from './pages/LoginPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { CalendarPage } from './pages/CalendarPage';
 
 const globalStyles = css`
   *, *::before, *::after {
@@ -11,6 +16,9 @@ const globalStyles = css`
 
   html, body, #root {
     height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    color: #172b4d;
   }
 
   body {
@@ -27,7 +35,20 @@ const globalStyles = css`
 const App: React.FC = () => (
   <>
     <Global styles={globalStyles} />
-    <Calendar />
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/calendar" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   </>
 );
 

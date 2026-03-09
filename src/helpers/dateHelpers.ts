@@ -16,3 +16,17 @@ export const groupByDate = <T extends { date: string }>(
     return map
   }, new Map<string, T[]>())
 }
+
+export const formatDisplayDate = (dateStr: string) => {
+  const d = new Date(dateStr + 'T00:00:00')
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(today.getDate() + 1)
+  if (dateStr === formatDate(today)) return 'Today'
+  if (dateStr === formatDate(tomorrow)) return 'Tomorrow'
+  return d.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  })
+}

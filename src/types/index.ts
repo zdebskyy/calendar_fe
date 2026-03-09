@@ -37,3 +37,5 @@ export interface DragState {
   overDate: string | null;
   overIndex: number | null;
 }
+
+export type Mode = 'login' | 'signup'
